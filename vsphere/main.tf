@@ -37,7 +37,6 @@ module "chromium" {
   vm_annotation = "Monitoring: Prometheus, Grafana"
   vm_num_cpus = "4"
   vm_memory = "8192"
-  vm_ipaddr = "192.168.10.32"
   vm_networks = var.chromium_networks
   vm_disks = var.chromium_disks
   vm_folder = vsphere_folder.toolsfolder.path
