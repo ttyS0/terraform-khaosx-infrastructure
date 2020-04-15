@@ -8,20 +8,16 @@ provider "vsphere" {
 ## VMs
 
 ### Chromium
-variable "chromium_networks" {
-  type = list(map(string))
-  default = [
+locals {
+  chromium_networks = [
     {
       network_id = data.vsphere_network.ProdNetwork.id
       mac_address = "00:50:56:a9:8f:dc"
       ipv4_address = "192.168.10.32"
     }
   ]
-}
 
-variable "chromium_disks" {
-  type = list(map(string))
-  default = [
+  chromium_disks = [
     {
       label = "disk0"
       size = data.vsphere_virtual_machine.large.disks.0.size
@@ -37,8 +33,8 @@ module "chromium" {
   vm_annotation = "Monitoring: Prometheus, Grafana"
   vm_num_cpus = "4"
   vm_memory = "8192"
-  vm_networks = var.chromium_networks
-  vm_disks = var.chromium_disks
+  vm_networks = local.chromium_disks
+  vm_disks = local.chromium_disks
   vm_folder = vsphere_folder.toolsfolder.path
   vm_template_uuid = data.vsphere_virtual_machine.large.id
   vm_resource_pool = data.vsphere_resource_pool.resource_pool.id
@@ -48,9 +44,8 @@ module "chromium" {
 }
 
 ### Copper
-variable "copper_networks" {
-  type = list(map(string))
-  default = [
+locals {
+  copper_networks = [
     {
       network_id = data.vsphere_network.ProdNetwork.id
       mac_address = "00:50:56:a9:8b:90"
@@ -62,11 +57,8 @@ variable "copper_networks" {
       ipv4_address = "192.168.15.37"
     }
   ]
-}
 
-variable "copper_disks" {
-  type = list(map(string))
-  default = [
+  copper_disks = [
     {
       label = "disk0"
       size = data.vsphere_virtual_machine.large.disks.0.size
@@ -83,8 +75,8 @@ module "copper" {
   vm_num_cpus = "4"
   vm_memory = "8192"
   vm_memory_reservation = "8192"
-  vm_networks = var.copper_networks
-  vm_disks = var.copper_disks
+  vm_networks = local.copper_networks
+  vm_disks = local.copper_disks
   vm_folder = vsphere_folder.appfolder.path
   vm_template_uuid = data.vsphere_virtual_machine.large.id
   vm_resource_pool = data.vsphere_resource_pool.resource_pool.id
@@ -94,9 +86,8 @@ module "copper" {
 }
 
 ### Iridium
-variable "iridium_networks" {
-  type = list(map(string))
-  default = [
+locals {
+  iridium_networks = [
     {
       network_id = data.vsphere_network.ProdNetwork.id
       mac_address = "00:50:56:a9:7c:08"
@@ -108,11 +99,7 @@ variable "iridium_networks" {
       ipv4_address = "192.168.15.36"
     }
   ]
-}
-
-variable "iridium_disks" {
-  type = list(map(string))
-  default = [
+  iridium_disks = [
     {
       label = "disk0"
       size = data.vsphere_virtual_machine.small.disks.0.size
@@ -128,8 +115,8 @@ module "iridium" {
   vm_annotation = "DNS/DHCP - Runs Unbound and dnsmasq"
   vm_num_cpus = "1"
   vm_memory = "2048"
-  vm_networks = var.iridium_networks
-  vm_disks = var.iridium_disks
+  vm_networks = local.iridium_networks
+  vm_disks = local.iridium_disks
   vm_folder = vsphere_folder.dnsfolder.path
   vm_template_uuid = data.vsphere_virtual_machine.small.id
   vm_resource_pool = data.vsphere_resource_pool.resource_pool.id
@@ -139,9 +126,8 @@ module "iridium" {
 }
 
 ### Mercury
-variable "mercury_networks" {
-  type = list(map(string))
-  default = [
+locals {
+  mercury_networks = [
     {
       network_id = data.vsphere_network.ProdNetwork.id
       mac_address = "00:50:56:a9:48:63"
@@ -153,11 +139,8 @@ variable "mercury_networks" {
       ipv4_address = "192.168.15.38"
     }
   ]
-}
 
-variable "mercury_disks" {
-  type = list(map(string))
-  default = [
+  mercury_disks = [
     {
       label = "disk0"
       size = data.vsphere_virtual_machine.medium.disks.0.size
@@ -173,8 +156,8 @@ module "mercury" {
   vm_annotation = "Docker server 01 - MediaOps"
   vm_num_cpus = "4"
   vm_memory = "8192"
-  vm_networks = var.mercury_networks
-  vm_disks = var.mercury_disks
+  vm_networks = local.mercury_networks
+  vm_disks = local.mercury_disks
   vm_folder = vsphere_folder.dockerfolder.path
   vm_template_uuid = data.vsphere_virtual_machine.medium.id
   vm_resource_pool = data.vsphere_resource_pool.resource_pool.id
@@ -184,20 +167,15 @@ module "mercury" {
 }
 
 ### Palladium
-variable "palladium_networks" {
-  type = list(map(string))
-  default = [
+locals {
+  palladium_networks = [
     {
       network_id = data.vsphere_network.ProdNetwork.id
       mac_address = "00:50:56:a9:ff:de"
       ipv4_address = "192.168.10.35"
     }
   ]
-}
-
-variable "palladium_disks" {
-  type = list(map(string))
-  default = [
+  palladium_disks = [
     {
       label = "disk0"
       size = data.vsphere_virtual_machine.large.disks.0.size
@@ -213,8 +191,8 @@ module "palladium" {
   vm_annotation = "Database server - primary MariaDB"
   vm_num_cpus = "4"
   vm_memory = "8192"
-  vm_networks = var.palladium_networks
-  vm_disks = var.palladium_disks
+  vm_networks = local.palladium_networks
+  vm_disks = local.palladium_disks
   vm_folder = vsphere_folder.dbfolder.path
   vm_template_uuid = data.vsphere_virtual_machine.large.id
   vm_resource_pool = data.vsphere_resource_pool.resource_pool.id
@@ -224,20 +202,16 @@ module "palladium" {
 }
 
 ### Silver
-variable "silver_networks" {
-  type = list(map(string))
-  default = [
+locals {
+  silver_networks = [
     {
       network_id = data.vsphere_network.ProdNetwork.id
       mac_address = "00:50:56:a9:90:21"
       ipv4_address = "192.168.10.11"
     }
   ]
-}
 
-variable "silver_disks" {
-  type = list(map(string))
-  default = [
+  silver_disks = [
     {
       label = "disk0"
       size = data.vsphere_virtual_machine.small.disks.0.size
@@ -245,16 +219,16 @@ variable "silver_disks" {
       thin_provisioned = data.vsphere_virtual_machine.small.disks.0.thin_provisioned
     }
   ]
-}
 
+}
 module "silver" {
   source = "../modules/vm"
   vm_hostname = "silver"
   vm_annotation = "Primary Pi-hole server"
   vm_num_cpus = "1"
   vm_memory = "2048"
-  vm_networks = var.silver_networks
-  vm_disks = var.silver_disks
+  vm_networks = local.silver_networks
+  vm_disks = local.silver_disks
   vm_folder = vsphere_folder.dnsfolder.path
   vm_template_uuid = data.vsphere_virtual_machine.small.id
   vm_resource_pool = data.vsphere_resource_pool.resource_pool.id
@@ -264,20 +238,16 @@ module "silver" {
 }
 
 ### Titanium
-variable "titanium_networks" {
-  type = list(map(string))
-  default = [
+locals {
+  titanium_networks = [
     {
       network_id = data.vsphere_network.ProdNetwork.id
       mac_address = "00:50:56:a9:a7:02"
       ipv4_address = "192.168.10.33"
     }
   ]
-}
 
-variable "titanium_disks" {
-  type = list(map(string))
-  default = [
+  titanium_disks = [
     {
       label = "disk0"
       size = data.vsphere_virtual_machine.control.disks.0.size
@@ -285,6 +255,7 @@ variable "titanium_disks" {
       thin_provisioned = data.vsphere_virtual_machine.control.disks.0.thin_provisioned
     }
   ]
+
 }
 
 module "titanium" {
@@ -293,8 +264,8 @@ module "titanium" {
   vm_annotation = "Primary tools server. Ansible, Prometheus, Grafana"
   vm_num_cpus = "1"
   vm_memory = "2048"
-  vm_networks = var.titanium_networks
-  vm_disks = var.titanium_disks
+  vm_networks = local.titanium_networks
+  vm_disks = local.titanium_disks
   vm_folder = vsphere_folder.toolsfolder.path
   vm_template_uuid = data.vsphere_virtual_machine.control.id
   vm_resource_pool = data.vsphere_resource_pool.resource_pool.id
